@@ -35,10 +35,6 @@ export default function Chart(props) {
               data: props.sellSum,
             },
             {
-              name: "Margin",
-              data: [props.margin],
-            },
-            {
               name: "Buy Volume",
               data: props.buyVolume,
             },

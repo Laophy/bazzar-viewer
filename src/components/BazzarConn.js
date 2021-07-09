@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Chart from "./Chart";
-import { isCompositeComponent } from "react-dom/cjs/react-dom-test-utils.production.min";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Card } from "react-bootstrap";
 
 export default function BazzarConn() {
   const [isLoading, setLoading] = useState(true);
   const [bazzar, setBazzar] = useState([]);
-  const [pages, setPages] = useState(5);
+  const [pages, setPages] = useState(1);
 
   useEffect(() => {
     connBazzar();
@@ -50,12 +51,23 @@ export default function BazzarConn() {
   }
 
   return (
-    <div>
+    <div className="align-items-center justify-content-center">
+      <input type="number" placeholder="1" onChange={e => setPages(e.target.value)}/>
       {Object.keys(bazzar)
         .slice(0, pages)
         .map((item, i) => (
           <div key={i}>
-            <p>
+            <Card bg="light" border="danger" className="mb-2" style={{
+              display: "flex",
+              alignItems: "left",
+              justifyContent: "center",
+              width: '75rem',
+              marginRight: "auto",
+              marginLeft: "auto",
+              fontFamily: "MINECRAFTIA",
+            }}>
+              <Card.Header><h3>{bazzar[item].product_id.toLowerCase()}</h3></Card.Header>
+              <Card.Body>
               <Chart
                 id={i}
                 name={bazzar[item].product_id}
@@ -68,7 +80,10 @@ export default function BazzarConn() {
                 buyVolume={createArrayVolume(bazzar[item].buy_summary)}
                 sellVolume={createArrayVolume(bazzar[item].sell_summary)}
               />
-            </p>
+              </Card.Body>
+              <Card.Footer>{"Profit $" + `${bazzar[item].quick_status.buyPrice -
+                  bazzar[item].quick_status.sellPrice}`}</Card.Footer>
+            </Card>
           </div>
         ))}
     </div>
